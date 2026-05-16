@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>付款项目信息</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><header><h1>付款项目信息</h1></header>
+<main>
+    <a th:href="@{/index}">首页</a>
+    <table>
+        <tr><th>支付ID</th><th>项目ID</th><th>金额</th><th>状态</th><th>操作</th></tr>
+        <tr th:each="pay : ${pays}">
+            <td th:text="${pay.payID}"></td><td th:text="${pay.activityID}"></td><td th:text="${pay.payAmount}"></td><td th:text="${pay.payStatus}"></td>
+            <td><a th:if="${pay.payStatus != '已支付'}" th:href="@{/ChoosePaymentMethod(payID=${pay.payID})}">去付款</a></td>
+        </tr>
+    </table>
+</main></body></html>

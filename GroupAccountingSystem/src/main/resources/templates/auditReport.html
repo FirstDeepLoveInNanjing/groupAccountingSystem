@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>审核举报</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><header><h1>审核举报</h1></header>
+<main>
+    <p class="message" th:text="${message}"></p>
+    <nav><a th:href="@{/findReport}">查找举报</a><a th:href="@{/index}">首页</a></nav>
+    <table>
+        <tr><th>举报ID</th><th>举报者ID</th><th>项目ID</th><th>内容</th><th>状态</th><th>操作</th></tr>
+        <tr th:each="report : ${reports}">
+            <td th:text="${report.reportID}"></td><td th:text="${report.reporterID}"></td><td th:text="${report.accusedActivityID}"></td>
+            <td th:text="${report.reportReason}"></td><td th:text="${report.reportProcessStatus}"></td>
+            <td>
+                <form th:action="@{/report/audit}" method="post">
+                    <input type="hidden" name="reportID" th:value="${report.reportID}">
+                    <select name="reportProcessStatus">
+                        <option value="已通过">已通过</option>
+                        <option value="已驳回">已驳回</option>
+                    </select>
+                    <button type="submit">审核</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</main></body></html>

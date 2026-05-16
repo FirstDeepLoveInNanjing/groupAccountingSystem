@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>管理用户账号</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><header><h1>管理用户账号</h1></header>
+<main>
+    <p class="message" th:text="${message}"></p><p class="error" th:text="${error}"></p>
+    <nav><a th:href="@{/index}">首页</a><a th:href="@{/resultSearchUser}">查询用户</a></nav>
+    <table>
+        <tr><th>ID</th><th>用户名</th><th>电话</th><th>邮箱</th><th>注册时间</th><th>操作</th></tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.userID}"></td><td th:text="${user.userName}"></td><td th:text="${user.phoneNumber}"></td>
+            <td th:text="${user.userMailbox}"></td><td th:text="${user.registerTime}"></td>
+            <td>
+                <form th:action="@{/admin/deleteUser}" method="post">
+                    <input type="hidden" name="userID" th:value="${user.userID}">
+                    <button class="danger" type="submit">删除</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</main></body></html>

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>修改个人信息</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><header><h1>修改个人信息</h1></header>
+<main>
+    <form class="panel" th:action="@{/changeUserInfo}" method="post" th:object="${userInfo}">
+        <input name="userName" th:value="*{userName}" placeholder="用户名称">
+        <input name="phoneNumber" th:value="*{phoneNumber}" placeholder="联系电话">
+        <input name="userMailbox" th:value="*{userMailbox}" placeholder="邮箱地址">
+        <input name="realName" th:value="*{realName}" placeholder="真实姓名">
+        <input name="idNumber" th:value="*{idNumber}" placeholder="身份证号">
+        <input name="gender" th:value="*{gender}" placeholder="性别">
+        <input name="birthday" th:value="*{birthday}" placeholder="用户生日">
+        <button type="submit">保存</button>
+        <a th:href="@{/getUserInfo}">返回</a>
+    </form>
+</main></body></html>

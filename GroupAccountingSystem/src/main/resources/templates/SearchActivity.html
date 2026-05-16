@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>查找项目</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><header><h1>查找项目</h1></header>
+<main>
+    <p class="message" th:text="${message}"></p>
+    <p class="error" th:text="${error}"></p>
+    <nav><a th:href="@{/index}">首页</a><a th:href="@{/CreateActivity}">创建项目</a></nav>
+    <form class="panel" th:action="@{/SearchActivity}" method="get">
+        <input name="keyword" th:value="${keyword}" placeholder="项目ID、名称或描述">
+        <select name="isSettable">
+            <option value="">全部状态</option>
+            <option value="false" th:selected="${isSettable == false}">未结算</option>
+            <option value="true" th:selected="${isSettable == true}">已结算</option>
+        </select>
+        <button type="submit">查找</button>
+    </form>
+    <table>
+        <tr><th>ID</th><th>名称</th><th>预算</th><th>实际金额</th><th>是否已结算</th><th>操作</th></tr>
+        <tr th:each="activity : ${activities}">
+            <td th:text="${activity.activityID}"></td>
+            <td th:text="${activity.activityName}"></td>
+            <td th:text="${activity.budget}"></td>
+            <td th:text="${activity.actualAmount}"></td>
+            <td th:text="${activity.isSettable} ? '是' : '否'"></td>
+            <td>
+                <a th:href="@{/DisplayActivity(activityID=${activity.activityID})}">详情</a>
+                <a th:href="@{/EditActivity(activityID=${activity.activityID})}">编辑</a>
+                <a th:href="@{/EndActivity(activityID=${activity.activityID})}">删除</a>
+                <a th:href="@{/AddMember(activityID=${activity.activityID})}">添加成员</a>
+                <a th:href="@{/InitSettlement(activityID=${activity.activityID})}">发起结算</a>
+            </td>
+        </tr>
+    </table>
+</main></body></html>

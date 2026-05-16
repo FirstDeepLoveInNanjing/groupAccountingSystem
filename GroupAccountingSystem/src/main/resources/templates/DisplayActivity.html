@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>项目详情</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><header><h1>项目详情</h1></header>
+<main>
+    <nav><a th:href="@{/SearchActivity}">返回项目列表</a></nav>
+    <section class="panel" th:if="${activity != null}">
+        <h2 th:text="${activity.activityName}"></h2>
+        <p th:text="${activity.description}"></p>
+        <p>预算金额：<span th:text="${activity.budget}"></span></p>
+        <p>实际总金额：<span th:text="${activity.actualAmount}"></span></p>
+        <p>最大成员数：<span th:text="${activity.maxMember}"></span></p>
+        <nav>
+            <a th:href="@{/EditActivity(activityID=${activity.activityID})}">编辑项目</a>
+            <a th:href="@{/AddMember(activityID=${activity.activityID})}">添加成员</a>
+            <a th:href="@{/RemoveMember(activityID=${activity.activityID})}">移除成员</a>
+            <a th:href="@{/ProcessWithdrawApplication(activityID=${activity.activityID})}">处理退出申请</a>
+            <a th:href="@{/InitSettlement(activityID=${activity.activityID})}">发起结算</a>
+            <a th:href="@{/DisplaySettlement(activityID=${activity.activityID})}">查看收款情况</a>
+        </nav>
+    </section>
+    <h2>项目成员</h2>
+    <table>
+        <tr><th>成员ID</th><th>角色</th><th>确认状态</th><th>确认时间</th></tr>
+        <tr th:each="member : ${members}">
+            <td th:text="${member.memberID}"></td>
+            <td th:text="${member.role}"></td>
+            <td th:text="${member.confirmAttendStatus}"></td>
+            <td th:text="${member.confirmTime}"></td>
+        </tr>
+    </table>
+</main></body></html>

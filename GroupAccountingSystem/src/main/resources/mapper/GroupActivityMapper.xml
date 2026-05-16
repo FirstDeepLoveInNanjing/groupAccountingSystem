@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.groupaccountingsystem.mapper.GroupActivityMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="activityID">
+        INSERT INTO groupactivity
+            (activityName, description, budget, actualAmount, creatorID, createTime, settlementTime, isSettable, confirmDeadline, maxMember)
+        VALUES
+            (#{activityName}, #{description}, #{budget}, #{actualAmount}, #{creatorID}, #{createTime}, #{settlementTime}, #{isSettable}, #{confirmDeadline}, #{maxMember})
+    </insert>
+
+    <update id="update">
+        UPDATE groupactivity
+        SET activityName = #{activityName},
+            description = #{description},
+            budget = #{budget},
+            actualAmount = #{actualAmount},
+            confirmDeadline = #{confirmDeadline},
+            maxMember = #{maxMember}
+        WHERE activityID = #{activityID}
+    </update>
+
+    <update id="updateSettlement">
+        UPDATE groupactivity
+        SET actualAmount = #{actualAmount},
+            settlementTime = #{settlementTime},
+            isSettable = #{isSettable}
+        WHERE activityID = #{activityID}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM groupactivity WHERE activityID = #{activityID} AND isSettable = 0
+    </delete>
+
+    <select id="selectById" resultType="groupActivity">
+        SELECT * FROM groupactivity WHERE activityID = #{activityID}
+    </select>
+
+    <select id="selectAll" resultType="groupActivity">
+        SELECT * FROM groupactivity ORDER BY createTime DESC
+    </select>
+
+    <select id="search" resultType="groupActivity">
+        SELECT * FROM groupactivity
+        WHERE 1 = 1
+        <if test="keyword != null and keyword != ''">
+            AND (activityName LIKE CONCAT('%', #{keyword}, '%')
+                 OR description LIKE CONCAT('%', #{keyword}, '%')
+                 OR CAST(activityID AS CHAR) LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        <if test="isSettable != null">
+            AND isSettable = #{isSettable}
+        </if>
+        ORDER BY createTime DESC
+    </select>
+
+    <select id="selectByCreatorID" resultType="groupActivity">
+        SELECT * FROM groupactivity WHERE creatorID = #{creatorID} ORDER BY createTime DESC
+    </select>
+
+    <select id="selectByMemberID" resultType="groupActivity">
+        SELECT ga.*
+        FROM groupactivity ga
+        INNER JOIN activitymember am ON ga.activityID = am.activityID
+        WHERE am.memberID = #{memberID}
+        ORDER BY ga.createTime DESC
+    </select>
+</mapper>

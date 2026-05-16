@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>第三方付款</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><header><h1>第三方付款</h1></header>
+<main>
+    <section class="panel">
+        <p>此页面模拟第三方付款。</p>
+        <a th:href="@{/ChoosePaymentMethod(payID=${pay.payID})}">返回选择付款方式</a>
+    </section>
+</main></body></html>

@@ -1,0 +1,93 @@
+body {
+    margin: 0;
+    font-family: Arial, "Microsoft YaHei", sans-serif;
+    color: #222;
+    background: #f6f7f9;
+}
+
+header {
+    background: #2f4056;
+    color: #fff;
+    padding: 16px 24px;
+}
+
+main {
+    max-width: 1080px;
+    margin: 24px auto;
+    padding: 0 16px 40px;
+}
+
+nav a, nav button {
+    margin-right: 10px;
+}
+
+a {
+    color: #1f66c2;
+    text-decoration: none;
+}
+
+form {
+    margin: 12px 0;
+}
+
+input, select, textarea, button {
+    box-sizing: border-box;
+    margin: 6px 4px 6px 0;
+    padding: 8px;
+    border: 1px solid #c9ced6;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+textarea {
+    width: 100%;
+    min-height: 90px;
+}
+
+button, .button {
+    display: inline-block;
+    border: 0;
+    background: #2f6fbd;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.danger {
+    background: #b42318;
+}
+
+.panel {
+    background: #fff;
+    border: 1px solid #dde1e7;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 16px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    margin-top: 12px;
+}
+
+th, td {
+    border: 1px solid #dde1e7;
+    padding: 8px;
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    background: #eef1f5;
+}
+
+.message {
+    color: #146c2e;
+}
+
+.error {
+    color: #b42318;
+}

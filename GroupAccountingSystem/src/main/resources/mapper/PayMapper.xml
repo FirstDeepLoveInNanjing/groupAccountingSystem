@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.groupaccountingsystem.mapper.PayMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="payID">
+        INSERT INTO pay (activityID, userID, payAmount, payStatus, payMethod, payTime, payRemark)
+        VALUES (#{activityID}, #{userID}, #{payAmount}, #{payStatus}, #{payMethod}, #{payTime}, #{payRemark})
+    </insert>
+
+    <update id="updatePayment">
+        UPDATE pay
+        SET payStatus = #{payStatus},
+            payMethod = #{payMethod},
+            payTime = #{payTime},
+            payRemark = #{payRemark}
+        WHERE payID = #{payID}
+    </update>
+
+    <select id="selectById" resultType="pay">
+        SELECT * FROM pay WHERE payID = #{payID}
+    </select>
+
+    <select id="selectByActivityAndUser" resultType="pay">
+        SELECT * FROM pay WHERE activityID = #{activityID} AND userID = #{userID} LIMIT 1
+    </select>
+
+    <select id="selectByActivityID" resultType="pay">
+        SELECT * FROM pay WHERE activityID = #{activityID} ORDER BY payID DESC
+    </select>
+
+    <select id="selectByUserID" resultType="pay">
+        SELECT * FROM pay WHERE userID = #{userID} ORDER BY payID DESC
+    </select>
+
+    <select id="sumPaidByActivityID" resultType="java.math.BigDecimal">
+        SELECT COALESCE(SUM(payAmount), 0)
+        FROM pay
+        WHERE activityID = #{activityID} AND payStatus = '已支付'
+    </select>
+</mapper>

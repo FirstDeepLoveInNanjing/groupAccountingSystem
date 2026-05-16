@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>移除成员</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><header><h1>移除成员</h1></header>
+<main>
+    <p class="message" th:text="${message}"></p><p class="error" th:text="${error}"></p>
+    <a th:href="@{/DisplayActivity(activityID=${activity.activityID})}">返回项目详情</a>
+    <table>
+        <tr><th>成员ID</th><th>角色</th><th>确认状态</th><th>操作</th></tr>
+        <tr th:each="member : ${members}">
+            <td th:text="${member.memberID}"></td><td th:text="${member.role}"></td><td th:text="${member.confirmAttendStatus}"></td>
+            <td>
+                <form th:action="@{/activity/removeMember}" method="post">
+                    <input type="hidden" name="activityID" th:value="${activity.activityID}">
+                    <input type="hidden" name="memberID" th:value="${member.memberID}">
+                    <button class="danger" type="submit">移除</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</main></body></html>

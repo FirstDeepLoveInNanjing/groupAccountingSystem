@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>查看举报状态</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><header><h1>查看举报状态</h1></header>
+<main>
+    <p class="message" th:text="${message}"></p>
+    <nav><a th:href="@{/index}">首页</a><a th:href="@{/FillReportInformation}">发布举报</a><a th:href="@{/CancelReport}">撤销举报</a></nav>
+    <table>
+        <tr><th>举报ID</th><th>项目ID</th><th>举报内容</th><th>举报时间</th><th>处理状态</th></tr>
+        <tr th:each="report : ${reports}">
+            <td th:text="${report.reportID}"></td><td th:text="${report.accusedActivityID}"></td>
+            <td th:text="${report.reportReason}"></td><td th:text="${report.reportTime}"></td><td th:text="${report.reportProcessStatus}"></td>
+        </tr>
+    </table>
+</main></body></html>

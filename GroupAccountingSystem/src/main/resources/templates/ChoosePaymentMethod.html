@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>选择付款方式</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><header><h1>选择付款方式</h1></header>
+<main>
+    <p class="error" th:text="${error}"></p>
+    <form class="panel" th:action="@{/payment/finish}" method="post">
+        <input type="hidden" name="payID" th:value="${pay.payID}">
+        <p>支付金额：<span th:text="${pay.payAmount}"></span></p>
+        <select name="payMethod" required>
+            <option value="现金">现金</option>
+            <option value="微信">微信</option>
+            <option value="支付宝">支付宝</option>
+            <option value="银行卡">银行卡</option>
+        </select>
+        <textarea name="payRemark" placeholder="支付备注"></textarea>
+        <button type="submit">确认支付</button>
+        <a th:href="@{/ThirdPartPayment(payID=${pay.payID})}">第三方付款页面</a>
+    </form>
+</main></body></html>

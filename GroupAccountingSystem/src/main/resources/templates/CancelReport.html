@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>撤销举报</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><header><h1>撤销举报</h1></header>
+<main>
+    <p class="message" th:text="${message}"></p>
+    <a th:href="@{/DisplayReportStatus}">查看举报状态</a>
+    <table>
+        <tr><th>举报ID</th><th>项目ID</th><th>内容</th><th>状态</th><th>操作</th></tr>
+        <tr th:each="report : ${reports}">
+            <td th:text="${report.reportID}"></td><td th:text="${report.accusedActivityID}"></td>
+            <td th:text="${report.reportReason}"></td><td th:text="${report.reportProcessStatus}"></td>
+            <td>
+                <form th:if="${report.reportProcessStatus == '待审核'}" th:action="@{/report/cancel}" method="post">
+                    <input type="hidden" name="reportID" th:value="${report.reportID}">
+                    <button class="danger" type="submit">撤销</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</main></body></html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>确认项目</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><header><h1>确认项目</h1></header>
+<main>
+    <p class="message" th:text="${message}"></p><p class="error" th:text="${error}"></p>
+    <a th:href="@{/index}">首页</a>
+    <table>
+        <tr><th>ID</th><th>项目名称</th><th>预算</th><th>操作</th></tr>
+        <tr th:each="activity : ${activities}">
+            <td th:text="${activity.activityID}"></td>
+            <td><a th:href="@{/DisplayActivity(activityID=${activity.activityID})}" th:text="${activity.activityName}"></a></td>
+            <td th:text="${activity.budget}"></td>
+            <td>
+                <form th:action="@{/activity/confirm}" method="post">
+                    <input type="hidden" name="activityID" th:value="${activity.activityID}">
+                    <button type="submit">确认参与</button>
+                </form>
+                <form th:action="@{/activity/applyQuit}" method="post">
+                    <input type="hidden" name="activityID" th:value="${activity.activityID}">
+                    <button type="submit">申请退出</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</main></body></html>
