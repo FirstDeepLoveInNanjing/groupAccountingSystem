@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>收款码设置</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><header><h1>收款码设置</h1></header>
+<main>
+    <p class="message" th:text="${message}"></p><p class="error" th:text="${error}"></p>
+    <nav><a th:href="@{/index}">首页</a><a th:href="@{/getUserInfo}">个人信息</a></nav>
+    <section class="panel">
+        <h2>当前收款码</h2>
+        <p th:if="${userInfo.paymentQrCodePath == null}">尚未上传收款码。未上传时不能创建项目。</p>
+        <img th:if="${userInfo.paymentQrCodePath != null}" th:src="@{${userInfo.paymentQrCodePath}}" alt="收款码" style="max-width:260px;width:100%;">
+    </section>
+    <form class="panel" th:action="@{/PaymentQrCode}" method="post" enctype="multipart/form-data">
+        <h2>上传新的收款码</h2>
+        <input type="file" name="paymentQrCode" accept=".jpg,.jpeg,.png,image/jpeg,image/png" required>
+        <button type="submit">保存收款码</button>
+    </form>
+</main></body></html>

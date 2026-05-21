@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>查询用户结果</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><header><h1>查询用户结果</h1></header>
+<main>
+    <form class="panel" th:action="@{/resultSearchUser}" method="get">
+        <input name="keyword" th:value="${keyword}" placeholder="用户ID、名称、电话、邮箱或真实姓名">
+        <button type="submit">查询</button>
+        <a th:href="@{/manageUser}">返回管理用户</a>
+    </form>
+    <table>
+        <tr><th>ID</th><th>用户名</th><th>电话</th><th>邮箱</th><th>真实姓名</th><th>操作</th></tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.userID}"></td><td th:text="${user.userName}"></td><td th:text="${user.phoneNumber}"></td>
+            <td th:text="${user.userMailbox}"></td><td th:text="${user.realName}"></td>
+            <td>
+                <form th:action="@{/admin/deleteUser}" method="post">
+                    <input type="hidden" name="userID" th:value="${user.userID}">
+                    <button class="danger" type="submit">删除</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</main></body></html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>查看个人信息</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><header><h1>查看个人信息</h1></header>
+<main>
+    <p class="message" th:text="${message}"></p>
+    <nav><a th:href="@{/index}">首页</a><a th:href="@{/changeUserInfo}">修改信息</a><a th:href="@{/PaymentQrCode}">收款码设置</a><a th:href="@{/changePassword}">修改密码</a><a th:href="@{/cancelUser}">注销账户</a></nav>
+    <table>
+        <tr><th>用户ID</th><td th:text="${userInfo.userID}"></td></tr>
+        <tr><th>用户名称</th><td th:text="${userInfo.userName}"></td></tr>
+        <tr><th>邀请码</th><td><strong th:text="${userInfo.inviteCode}"></strong><p class="error">邀请码用于加入项目，请不要随意暴露给陌生人。</p></td></tr>
+        <tr><th>联系电话</th><td th:text="${userInfo.phoneNumber}"></td></tr>
+        <tr><th>邮箱地址</th><td th:text="${userInfo.userMailbox}"></td></tr>
+        <tr><th>真实姓名</th><td th:text="${userInfo.realName}"></td></tr>
+        <tr><th>身份证号</th><td th:text="${userInfo.idNumber}"></td></tr>
+        <tr><th>性别</th><td th:text="${userInfo.gender}"></td></tr>
+        <tr><th>用户生日</th><td th:text="${userInfo.birthday}"></td></tr>
+        <tr><th>注册时间</th><td th:text="${#dates.format(userInfo.registerTime,'yyyy-MM-dd HH:mm')}"></td></tr>
+        <tr>
+            <th>收款码</th>
+            <td>
+                <span th:if="${userInfo.paymentQrCodePath == null}">未上传</span>
+                <img th:if="${userInfo.paymentQrCodePath != null}" th:src="@{${userInfo.paymentQrCodePath}}" alt="收款码" style="max-width:160px;width:100%;">
+            </td>
+        </tr>
+    </table>
+</main></body></html>

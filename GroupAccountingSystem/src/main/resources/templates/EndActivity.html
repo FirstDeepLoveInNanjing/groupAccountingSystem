@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>删除项目</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><header><h1>删除项目</h1></header>
+<main>
+    <section class="panel">
+        <p>只能删除未结算项目。</p>
+        <form th:action="@{/activity/delete}" method="post">
+            <input type="hidden" name="activityID" th:value="${activity.activityID}">
+            <button class="danger" type="submit">确认删除</button>
+            <a th:href="@{/DisplayActivity(activityID=${activity.activityID})}">返回</a>
+        </form>
+    </section>
+</main></body></html>

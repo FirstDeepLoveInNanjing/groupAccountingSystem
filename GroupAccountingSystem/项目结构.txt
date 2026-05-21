@@ -1,0 +1,108 @@
+GroupAccountingSystem
+|-- pom.xml
+|   |-- Maven 项目配置；引入 Spring Web、Thymeleaf、MyBatis、MySQL、Lombok、测试依赖。
+|-- src
+|   |-- main
+|   |   |-- java
+|   |   |   |-- com/groupaccountingsystem
+|   |   |   |   |-- GroupAccountingSystemApplication.java
+|   |   |   |   |   |-- SpringBoot 启动类。
+|   |   |   |   |-- controller
+|   |   |   |   |   |-- ApiLoginController.java
+|   |   |   |   |   |   |-- 登录 API，保留原有后端接口。
+|   |   |   |   |   |-- ApiRegisterController.java
+|   |   |   |   |   |   |-- 注册 API，保留原有后端接口。
+|   |   |   |   |   |-- PageController.java
+|   |   |   |   |   |   |-- 登录、注册、首页、退出登录等 Thymeleaf 页面入口。
+|   |   |   |   |   |-- SystemController.java
+|   |   |   |   |   |   |-- 用户、项目、成员、结算、支付、举报等页面和表单操作入口。
+|   |   |   |   |-- mapper
+|   |   |   |   |   |-- AdministratorMapper.java
+|   |   |   |   |   |-- OrdinaryUserMapper.java
+|   |   |   |   |   |-- UserMapper.java
+|   |   |   |   |   |-- GroupActivityMapper.java
+|   |   |   |   |   |-- ActivityMemberMapper.java
+|   |   |   |   |   |-- CollectMapper.java
+|   |   |   |   |   |-- PayMapper.java
+|   |   |   |   |   |-- ReportMapper.java
+|   |   |   |   |   |   |-- MyBatis Mapper 接口，定义数据库访问方法。
+|   |   |   |   |-- pojo
+|   |   |   |   |   |-- User.java
+|   |   |   |   |   |-- Administrator.java
+|   |   |   |   |   |-- OrdinaryUser.java
+|   |   |   |   |   |-- GroupActivity.java
+|   |   |   |   |   |-- ActivityMember.java
+|   |   |   |   |   |-- Collect.java
+|   |   |   |   |   |-- Pay.java
+|   |   |   |   |   |-- Report.java
+|   |   |   |   |   |   |-- 实体类，属性按需求属性表和 sys.sql 字段对应，Java 属性统一小驼峰。
+|   |   |   |   |-- service
+|   |   |   |   |   |-- AdministratorService.java
+|   |   |   |   |   |-- OrdinaryUserService.java
+|   |   |   |   |   |-- UserAccountService.java
+|   |   |   |   |   |-- ActivityService.java
+|   |   |   |   |   |-- SettlementService.java
+|   |   |   |   |   |-- ReportService.java
+|   |   |   |   |   |   |-- 业务接口，划分用户、项目、结算、举报等业务。
+|   |   |   |   |   |-- impl
+|   |   |   |   |   |   |-- AdministratorServiceImpl.java
+|   |   |   |   |   |   |-- OrdinaryUserServiceImpl.java
+|   |   |   |   |   |   |-- UserAccountServiceImpl.java
+|   |   |   |   |   |   |-- ActivityServiceImpl.java
+|   |   |   |   |   |   |-- SettlementServiceImpl.java
+|   |   |   |   |   |   |-- ReportServiceImpl.java
+|   |   |   |   |   |   |   |-- 业务实现类，处理状态流转、结算生成支付记录等逻辑。
+|   |   |-- resources
+|   |   |   |-- application.yml
+|   |   |   |   |-- 数据库连接、MyBatis XML 路径和实体别名配置。
+|   |   |   |-- mapper
+|   |   |   |   |-- AdministratorMapper.xml
+|   |   |   |   |-- OrdinaryUserMapper.xml
+|   |   |   |   |-- UserMapper.xml
+|   |   |   |   |-- GroupActivityMapper.xml
+|   |   |   |   |-- ActivityMemberMapper.xml
+|   |   |   |   |-- CollectMapper.xml
+|   |   |   |   |-- PayMapper.xml
+|   |   |   |   |-- ReportMapper.xml
+|   |   |   |   |   |-- SQL 映射文件，严格访问 sys.sql 中已有业务表。
+|   |   |   |-- static
+|   |   |   |   |-- css/style.css
+|   |   |   |   |   |-- 系统页面基础样式。
+|   |   |   |-- templates
+|   |   |   |   |-- signin.html
+|   |   |   |   |-- signupOrdinaryUser.html
+|   |   |   |   |-- index.html
+|   |   |   |   |-- manageUser.html
+|   |   |   |   |-- resultSearchUser.html
+|   |   |   |   |-- resultSearchActivity.html
+|   |   |   |   |-- auditReport.html
+|   |   |   |   |-- findReport.html
+|   |   |   |   |-- getUserInfo.html
+|   |   |   |   |-- changeUserInfo.html
+|   |   |   |   |-- changePassword.html
+|   |   |   |   |-- cancelUser.html
+|   |   |   |   |-- forgetPassword.html
+|   |   |   |   |-- CreateActivity.html
+|   |   |   |   |-- EditActivity.html
+|   |   |   |   |-- EndActivity.html
+|   |   |   |   |-- SearchActivity.html
+|   |   |   |   |-- DisplayActivity.html
+|   |   |   |   |-- InitConfirmActivity.html
+|   |   |   |   |-- ConfirmActivity.html
+|   |   |   |   |-- AddMember.html
+|   |   |   |   |-- SearchMember.html
+|   |   |   |   |-- RemoveMember.html
+|   |   |   |   |-- ProcessWithdrawApplication.html
+|   |   |   |   |-- InitSettlement.html
+|   |   |   |   |-- DisplaySettlement.html
+|   |   |   |   |-- PaymentInformation.html
+|   |   |   |   |-- ChoosePaymentMethod.html
+|   |   |   |   |-- ThirdPartPayment.html
+|   |   |   |   |-- PaymentFinish.html
+|   |   |   |   |-- FillReportInformation.html
+|   |   |   |   |-- CancelReport.html
+|   |   |   |   |-- DisplayReportStatus.html
+|   |   |   |   |   |-- Thymeleaf 前端页面，对应需求分析报告中的界面名称。
+|   |-- test
+|   |   |-- java/com/groupaccountingsystem/GroupAccountingSystemApplicationTests.java
+|   |   |   |-- SpringBoot 默认上下文测试。

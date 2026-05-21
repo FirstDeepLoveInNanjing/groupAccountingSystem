@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>批量结算</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .status-yes { color: #067647; font-weight: 600; }
+        .status-no { color: #b42318; }
+        textarea { min-height: 100px; }
+    </style>
+</head>
+<body><header><h1>批量结算</h1></header>
+<main>
+    <p class="error" th:text="${error}"></p>
+    <form class="panel" th:action="@{/settlement/batch}" method="post">
+        <div th:each="activityID : ${activityIDs}">
+            <input type="hidden" name="activityIDs" th:value="${activityID}">
+        </div>
+
+        <table>
+            <tr>
+                <th>ID</th><th>名称</th><th>实际金额</th><th>可结算</th>
+            </tr>
+            <tr th:each="activity : ${activities}">
+                <td th:text="${activity.activityID}"></td>
+                <td th:text="${activity.activityName}"></td>
+                <td th:text="${activity.actualAmount}"></td>
+                <td>
+                    <span th:class="${activity.canSettle == true} ? 'status-yes' : 'status-no'"
+                          th:text="${activity.canSettle == true} ? '可结算' : '不可结算'"
+                          th:title="${activity.settleUnavailableReason}"></span>
+                    <span th:if="${activity.canSettle != true}"
+                          th:text="'：' + ${activity.settleUnavailableReason}"></span>
+                </td>
+            </tr>
+        </table>
+
+        <textarea name="description" placeholder="结算说明">批量结算</textarea>
+        <button type="submit">确认批量结算</button>
+        <a th:href="@{/SearchActivity(myCreatedUnsettled=true,isSettable=false)}">返回项目管理</a>
+    </form>
+</main></body></html>

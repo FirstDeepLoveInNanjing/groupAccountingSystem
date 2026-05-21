@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.groupaccountingsystem.mapper.GroupActivityMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="activityID">
+        INSERT INTO groupactivity
+            (activityName, description, budget, actualAmount, creatorID, createTime, settlementTime, isSettable, confirmInitiated, confirmDeadline, maxMember)
+        VALUES
+            (#{activityName}, #{description}, #{budget}, #{actualAmount}, #{creatorID}, #{createTime}, #{settlementTime}, #{isSettable}, #{confirmInitiated}, #{confirmDeadline}, #{maxMember})
+    </insert>
+
+    <update id="update">
+        UPDATE groupactivity
+        SET activityName = #{activityName},
+            description = #{description},
+            budget = #{budget},
+            actualAmount = #{actualAmount},
+            confirmDeadline = #{confirmDeadline},
+            maxMember = #{maxMember}
+        WHERE activityID = #{activityID}
+    </update>
+
+    <update id="updateSettlement">
+        UPDATE groupactivity
+        SET settlementTime = #{settlementTime},
+            isSettable = #{isSettable}
+        WHERE activityID = #{activityID}
+    </update>
+
+    <update id="updateConfirmInitiated">
+        UPDATE groupactivity
+        SET confirmInitiated = #{confirmInitiated}
+        WHERE activityID = #{activityID}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM groupactivity WHERE activityID = #{activityID} AND isSettable = 0
+    </delete>
+
+    <select id="selectById" resultType="groupActivity">
+        SELECT ga.*, u.userName AS creatorName
+        FROM groupactivity ga
+        LEFT JOIN user u ON ga.creatorID = u.userID
+        WHERE ga.activityID = #{activityID}
+    </select>
+
+    <select id="selectAll" resultType="groupActivity">
+        SELECT ga.*, u.userName AS creatorName
+        FROM groupactivity ga
+        LEFT JOIN user u ON ga.creatorID = u.userID
+        ORDER BY ga.createTime DESC
+    </select>
+
+    <select id="search" resultType="groupActivity">
+        SELECT ga.*, u.userName AS creatorName
+        FROM groupactivity ga
+        LEFT JOIN user u ON ga.creatorID = u.userID
+        WHERE 1 = 1
+        <if test="keyword != null and keyword != ''">
+            AND (ga.activityName LIKE CONCAT('%', #{keyword}, '%')
+                 OR ga.description LIKE CONCAT('%', #{keyword}, '%')
+                 OR CAST(ga.activityID AS CHAR) LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        <if test="isSettable != null">
+            AND ga.isSettable = #{isSettable}
+        </if>
+        ORDER BY ga.createTime DESC
+    </select>
+
+    <select id="searchByUser" resultType="groupActivity">
+        SELECT ga.*, u.userName AS creatorName, am.confirmAttendStatus AS currentUserConfirmStatus
+        FROM groupactivity ga
+        INNER JOIN activitymember am ON ga.activityID = am.activityID AND am.memberID = #{userID}
+        LEFT JOIN user u ON ga.creatorID = u.userID
+        WHERE 1 = 1
+        <if test="keyword != null and keyword != ''">
+            AND (ga.activityName LIKE CONCAT('%', #{keyword}, '%')
+                 OR ga.description LIKE CONCAT('%', #{keyword}, '%')
+                 OR CAST(ga.activityID AS CHAR) LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        <if test="isSettable != null">
+            AND ga.isSettable = #{isSettable}
+        </if>
+        ORDER BY ga.createTime DESC
+    </select>
+
+    <select id="selectByCreatorID" resultType="groupActivity">
+        SELECT ga.*, u.userName AS creatorName
+        FROM groupactivity ga
+        LEFT JOIN user u ON ga.creatorID = u.userID
+        WHERE ga.creatorID = #{creatorID}
+        ORDER BY ga.createTime DESC
+    </select>
+
+    <select id="selectByMemberID" resultType="groupActivity">
+        SELECT ga.*, u.userName AS creatorName, am.confirmAttendStatus AS currentUserConfirmStatus
+        FROM groupactivity ga
+        INNER JOIN activitymember am ON ga.activityID = am.activityID
+        LEFT JOIN user u ON ga.creatorID = u.userID
+        WHERE am.memberID = #{memberID}
+        ORDER BY ga.createTime DESC
+    </select>
+</mapper>

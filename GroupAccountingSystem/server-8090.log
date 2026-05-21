@@ -1,0 +1,69 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------< com.groupAccountingSystem:groupAccountingSystem >-----------
+[INFO] Building groupAccountingSystem 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.5.11:run (default-cli) > test-compile @ groupAccountingSystem >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ groupAccountingSystem ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 42 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ groupAccountingSystem ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ groupAccountingSystem ---
+[INFO] skip non existing resourceDirectory D:\大三下\软工课设\团体记账系统\now\GroupAccountingSystem\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ groupAccountingSystem ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] <<< spring-boot:3.5.11:run (default-cli) < test-compile @ groupAccountingSystem <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.5.11:run (default-cli) @ groupAccountingSystem ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.11)
+
+2026-05-16T13:36:12.057+08:00  INFO 41912 --- [           main] c.g.GroupAccountingSystemApplication     : Starting GroupAccountingSystemApplication using Java 17.0.19 with PID 41912 (D:\大三下\软工课设\团体记账系统\now\GroupAccountingSystem\target\classes started by XuHao in D:\大三下\软工课设\团体记账系统\now\GroupAccountingSystem)
+2026-05-16T13:36:12.060+08:00  INFO 41912 --- [           main] c.g.GroupAccountingSystemApplication     : No active profile set, falling back to 1 default profile: "default"
+2026-05-16T13:36:12.688+08:00  INFO 41912 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8090 (http)
+2026-05-16T13:36:12.699+08:00  INFO 41912 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-05-16T13:36:12.699+08:00  INFO 41912 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.52]
+2026-05-16T13:36:12.732+08:00  INFO 41912 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-05-16T13:36:12.733+08:00  INFO 41912 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 648 ms
+2026-05-16T13:36:13.022+08:00  INFO 41912 --- [           main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2026-05-16T13:36:13.206+08:00  INFO 41912 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8090 (http) with context path '/'
+2026-05-16T13:36:13.213+08:00  INFO 41912 --- [           main] c.g.GroupAccountingSystemApplication     : Started GroupAccountingSystemApplication in 1.435 seconds (process running for 1.647)
+2026-05-16T13:36:30.620+08:00  INFO 41912 --- [nio-8090-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-05-16T13:36:30.622+08:00  INFO 41912 --- [nio-8090-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-05-16T13:36:30.623+08:00  INFO 41912 --- [nio-8090-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2026-05-16T13:36:37.728+08:00  INFO 41912 --- [nio-8090-exec-3] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-05-16T13:36:37.917+08:00  INFO 41912 --- [nio-8090-exec-3] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@2142aa9
+2026-05-16T13:36:37.918+08:00  INFO 41912 --- [nio-8090-exec-3] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-05-16T19:07:05.022+08:00  WARN 41912 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4h8m23s791ms386?s500ns).
+2026-05-16T20:13:58.213+08:00  WARN 41912 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=55m21s842ms554?s400ns).
+2026-05-16T22:35:06.797+08:00  WARN 41912 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m6s699ms612?s800ns).
+2026-05-16T22:50:29.768+08:00  WARN 41912 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m22s818ms124?s600ns).
+2026-05-16T23:13:17.982+08:00  WARN 41912 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=12m47s888ms484?s700ns).
+2026-05-17T00:00:47.064+08:00  WARN 41912 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=36m58s912ms98?s700ns).
+2026-05-17T00:34:56.784+08:00  WARN 41912 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=24m9s593ms826?s700ns).
+2026-05-17T03:15:12.982+08:00  WARN 41912 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2h30m46s39ms323?s700ns).
+2026-05-17T16:03:10.397+08:00  WARN 41912 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=12h47m57s414ms816?s500ns).
+2026-05-17T19:43:46.148+08:00  WARN 41912 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3h38m5s703ms527?s200ns).
+2026-05-17T23:21:40.455+08:00  WARN 41912 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=27m51s92ms45?s400ns).
+2026-05-17T23:34:05.194+08:00  WARN 41912 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=53s796ms22?s800ns).
+2026-05-18T09:55:35.858+08:00  WARN 41912 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=9h24m59s735ms68?s900ns).
+2026-05-18T15:37:18.585+08:00  WARN 41912 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=5h41m47s467ms241?s800ns).
+2026-05-18T19:45:21.684+08:00  WARN 41912 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=59m58s802ms236?s500ns).
+2026-05-18T20:19:17.360+08:00  WARN 41912 --- [l-1:housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=28m55s607ms241?s700ns).
