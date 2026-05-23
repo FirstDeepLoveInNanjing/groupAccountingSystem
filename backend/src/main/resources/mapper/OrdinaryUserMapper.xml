@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.groupaccountingsystem.mapper.OrdinaryUserMapper">
+
+    <select id="selectByAccountAndPassword" resultType="ordinaryUser">
+        SELECT *
+        FROM user
+        WHERE (phoneNumber = #{account} OR userMailbox = #{account})
+          AND userPassword = #{userPassword}
+          AND userType = '普通用户'
+    </select>
+
+    <select id="selectByUserName" resultType="ordinaryUser">
+        SELECT *
+        FROM user
+        WHERE userName = #{userName}
+    </select>
+
+    <select id="selectByPhoneNumber" resultType="ordinaryUser">
+        SELECT *
+        FROM user
+        WHERE phoneNumber = #{phoneNumber}
+    </select>
+
+    <select id="selectByUserMailbox" resultType="ordinaryUser">
+        SELECT *
+        FROM user
+        WHERE userMailbox = #{userMailbox}
+    </select>
+
+    <select id="selectByInviteCode" resultType="ordinaryUser">
+        SELECT *
+        FROM user
+        WHERE inviteCode = #{inviteCode}
+        LIMIT 1
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="userID">
+        INSERT INTO user (userID, userPassword, userType, phoneNumber, userMailbox, userName, registerTime, inviteCode)
+        VALUES (#{userID}, #{userPassword}, #{userType}, #{phoneNumber}, #{userMailbox}, #{userName}, #{registerTime}, #{inviteCode})
+    </insert>
+
+</mapper>

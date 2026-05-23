@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical">
+
+    <!-- 标题栏 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/surface"
+        android:elevation="2dp"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/titleText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="团体记账"
+            android:textColor="@color/primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- 导航栏 -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/surface"
+        android:elevation="2dp"
+        android:paddingStart="12dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="12dp"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/activitiesButton"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_nav_button"
+                android:minWidth="64dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="活动"
+                android:textColor="@color/text_on_primary"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/createButton"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_nav_button_outline"
+                android:minWidth="64dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="创建"
+                android:textColor="@color/primary"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/paysButton"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_nav_button_outline"
+                android:minWidth="64dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="付款"
+                android:textColor="@color/primary"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/pendingButton"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_nav_button_outline"
+                android:minWidth="64dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="待结算"
+                android:textColor="@color/primary"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/reportsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_nav_button_outline"
+                android:minWidth="64dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="举报"
+                android:textColor="@color/primary"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/profileButton"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/bg_nav_button_outline"
+                android:minWidth="64dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="我的"
+                android:textColor="@color/primary"
+                android:textSize="13sp" />
+
+            <Button
+                android:id="@+id/logoutButton"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:background="@drawable/bg_nav_button_outline"
+                android:minWidth="64dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:text="退出"
+                android:textColor="@color/danger"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- 内容区域 -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:id="@+id/contentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+</LinearLayout>

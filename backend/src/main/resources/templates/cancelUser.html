@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>注销账户</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><header><h1>注销账户</h1></header>
+<main>
+    <section class="panel">
+        <p>注销后将删除当前普通用户账户及相关记录。</p>
+        <form th:action="@{/cancelUser}" method="post">
+            <button class="danger" type="submit">确认注销</button>
+            <a th:href="@{/getUserInfo}">返回</a>
+        </form>
+    </section>
+</main></body></html>

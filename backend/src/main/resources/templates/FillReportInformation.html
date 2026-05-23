@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>发布举报</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header><h1>发布举报</h1></header>
+<main>
+    <p class="error" th:text="${error}"></p>
+    <form class="panel" th:action="@{/report/publish}" method="post">
+        <select name="accusedActivityID" required>
+            <option value="">请选择项目</option>
+            <option th:each="activity : ${activities}"
+                    th:value="${activity.activityID}"
+                    th:text="${activity.activityID + ' - ' + activity.activityName}"></option>
+        </select>
+        <input name="accusedUserKeyword" placeholder="被举报人ID、手机号或邮箱" required>
+        <textarea name="reportReason" placeholder="举报理由" required></textarea>
+        <button type="submit">确认举报</button>
+        <a th:href="@{/index}">返回首页</a>
+    </form>
+</main>
+</body>
+</html>

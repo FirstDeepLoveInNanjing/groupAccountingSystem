@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>移除成员</title><link rel="stylesheet" th:href="@{/css/style.css}">
+<style>
+    .status-badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 12px; color: #fff; }
+    .status-confirmed { background: #2e7d32; }
+    .status-unconfirmed { background: #ef6c00; }
+    .status-quitting { background: #c62828; }
+</style>
+</head>
+<body><header><h1>移除成员</h1></header>
+<main>
+    <p class="message" th:text="${message}"></p><p class="error" th:text="${error}"></p>
+    <p class="error" th:if="${activity.confirmInitiated == true}">创建者已发起确认，不能再自行移除成员</p>
+    <a th:href="@{/DisplayActivity(activityID=${activity.activityID})}">返回项目详情</a>
+    <table>
+        <tr><th>成员</th><th>角色</th><th>确认状态</th><th>操作</th></tr>
+        <tr th:each="member : ${members}">
+            <td>
+                <span th:text="${member.memberName}"></span>
+                <span style="color:#888;font-size:12px" th:text="'(ID:' + ${member.memberID} + ')'"></span>
+            </td>
+            <td th:text="${member.role}"></td>
+            <td>
+                <span class="status-badge status-confirmed" th:if="${member.confirmAttendStatus == '已确认'}" th:text="${member.confirmAttendStatus}"></span>
+                <span class="status-badge status-unconfirmed" th:if="${member.confirmAttendStatus == '未确认'}" th:text="${member.confirmAttendStatus}"></span>
+                <span class="status-badge status-quitting" th:if="${member.confirmAttendStatus == '申请退出'}" th:text="${member.confirmAttendStatus}"></span>
+            </td>
+            <td>
+                <form th:if="${activity.confirmInitiated != true && member.role != '创建者'}" th:action="@{/activity/removeMember}" method="post" style="margin:0" onsubmit="return confirmRemove(event, this)" th:attr="data-member-name=${member.memberName}">
+                    <input type="hidden" name="activityID" th:value="${activity.activityID}">
+                    <input type="hidden" name="memberID" th:value="${member.memberID}">
+                    <input type="hidden" name="removeReason">
+                    <button class="danger" type="submit">移除</button>
+                </form>
+                <span th:if="${member.role == '创建者' || activity.confirmInitiated == true}" style="color:#888;font-size:12px">不可移除</span>
+            </td>
+        </tr>
+    </table>
+</main>
+<script>
+    function confirmRemove(event, form) {
+        event.preventDefault();
+        var name = form.getAttribute('data-member-name') || '该成员';
+        var reason = prompt('确认移除 ' + name + '？\n请输入移除原因（可选）：');
+        if (reason === null) return false;
+        form.querySelector('input[name="removeReason"]').value = reason;
+        form.submit();
+        return true;
+    }
+</script>
+</body></html>

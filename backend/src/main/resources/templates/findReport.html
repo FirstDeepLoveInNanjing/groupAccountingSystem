@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>查找与审核举报</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header><h1>查找与审核举报</h1></header>
+<main>
+    <p class="message" th:text="${message}"></p>
+    <p class="error" th:text="${error}"></p>
+    <form class="panel" th:action="@{/findReport}" method="get">
+        <input name="keyword" th:value="${keyword}" placeholder="举报ID、用户ID、电话、邮箱、项目ID或内容">
+        <select name="reportProcessStatus">
+            <option value="">全部状态</option>
+            <option value="待审核" th:selected="${reportProcessStatus == '待审核'}">待审核</option>
+            <option value="已通过" th:selected="${reportProcessStatus == '已通过'}">已通过</option>
+            <option value="已驳回" th:selected="${reportProcessStatus == '已驳回'}">已驳回</option>
+        </select>
+        <button type="submit">查找</button>
+        <a th:href="@{/index}">首页</a>
+    </form>
+    <table>
+        <tr>
+            <th>举报ID</th><th>举报者ID</th><th>项目ID</th><th>被举报人ID</th>
+            <th>内容</th><th>状态</th><th>处罚结果</th><th>审核</th>
+        </tr>
+        <tr th:each="report : ${reports}">
+            <td th:text="${report.reportID}"></td>
+            <td th:text="${report.reporterID}"></td>
+            <td th:text="${report.accusedActivityID}"></td>
+            <td th:text="${report.accusedUserID}"></td>
+            <td th:text="${report.reportReason}"></td>
+            <td th:text="${report.reportProcessStatus}"></td>
+            <td>
+                <span th:if="${report.punishmentType == null}">-</span>
+                <span th:if="${report.punishmentType != null && report.punishmentEndTime == null}"
+                      th:text="${report.punishmentType}"></span>
+                <span th:if="${report.punishmentType != null && report.punishmentEndTime != null}"
+                      th:text="${report.punishmentType + '，截止到' + #dates.format(report.punishmentEndTime, 'yyyy年MM月dd日HH时mm分')}"></span>
+            </td>
+            <td>
+                <form th:if="${report.reportProcessStatus == '待审核'}" th:action="@{/report/audit}" method="post" class="inline-form">
+                    <input type="hidden" name="reportID" th:value="${report.reportID}">
+                    <select name="reportProcessStatus" class="audit-status">
+                        <option value="已通过">通过</option>
+                        <option value="已驳回">驳回</option>
+                    </select>
+                    <select name="punishmentType" class="punishment-select">
+                        <option value="警告">警告</option>
+                        <option value="封号1天">封号1天</option>
+                        <option value="封号7天">封号7天</option>
+                        <option value="封号365天">封号365天</option>
+                    </select>
+                    <button type="submit">审核举报</button>
+                </form>
+                <span th:if="${report.reportProcessStatus != '待审核'}">已审核</span>
+            </td>
+        </tr>
+    </table>
+</main>
+<script>
+    document.querySelectorAll('.inline-form').forEach(function (form) {
+        const status = form.querySelector('.audit-status');
+        const punishment = form.querySelector('.punishment-select');
+        const sync = function () {
+            punishment.disabled = status.value !== '已通过';
+        };
+        status.addEventListener('change', sync);
+        sync();
+    });
+</script>
+</body>
+</html>

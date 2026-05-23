@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>项目管理</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .self-badge { color: #b42318; font-size: 12px; margin-left: 4px; }
+        .actions { display: flex; flex-wrap: wrap; gap: 6px; }
+        .actions a, .actions button { margin: 0; padding: 6px 10px; font-size: 13px; }
+        .batch-column { display: none; text-align: center; }
+        .batch-mode .batch-column { display: table-cell; }
+        .filter-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+        .filter-row label { display: inline-flex; align-items: center; gap: 4px; }
+        .status-yes { color: #067647; font-weight: 600; }
+        .status-no { color: #b42318; }
+        .success { background: #16803c; }
+    </style>
+</head>
+<body id="activityPage"><header><h1>项目管理</h1></header>
+<main>
+    <p class="message" th:text="${message}"></p>
+    <p class="error" th:text="${error}"></p>
+    <nav><a th:href="@{/index}">首页</a><a th:href="@{/CreateActivity}" th:if="${currentUser != null}">创建项目</a></nav>
+    <form class="panel filter-row" th:action="@{/SearchActivity}" method="get">
+        <input name="keyword" th:value="${keyword}" placeholder="项目ID、名称或描述">
+        <select name="isSettable" th:disabled="${myCreatedUnsettled == true}">
+            <option value="">全部状态</option>
+            <option value="false" th:selected="${isSettable == false}">未结算</option>
+            <option value="true" th:selected="${isSettable == true}">已结算</option>
+        </select>
+        <label th:if="${currentUser != null}">
+            <input type="checkbox" name="myCreatedUnsettled" value="true" th:checked="${myCreatedUnsettled == true}">
+            我创建的未结算项目
+        </label>
+        <button type="submit">查找</button>
+        <button type="button" id="batchButton" th:if="${currentUser != null}">批量结算</button>
+    </form>
+    <form id="batchSettlementForm" th:action="@{/settlement/batch/prepare}" method="post"></form>
+    <table>
+        <tr>
+            <th class="batch-column">选择</th><th>ID</th><th>名称</th><th>实际金额</th><th>项目创建者</th><th>确认状态</th><th>是否已结算</th><th>是否可结算</th><th>操作</th>
+        </tr>
+        <tr th:each="activity : ${activities}">
+            <td class="batch-column">
+                <input type="checkbox" class="batch-checkbox" name="activityIDs" th:value="${activity.activityID}"
+                       th:title="${activity.settleUnavailableReason}">
+            </td>
+            <td th:text="${activity.activityID}"></td>
+            <td th:text="${activity.activityName}"></td>
+            <td th:text="${activity.actualAmount}"></td>
+            <td>
+                <span th:text="${activity.creatorName}"></span>
+                <span class="self-badge" th:if="${currentUser != null && currentUser.userID == activity.creatorID}">自己</span>
+            </td>
+            <td>
+                <span th:if="${currentUser != null && currentUser.userID == activity.creatorID}"
+                      th:text="${activity.confirmInitiated == true ? '已发起确认' : '未发起确认'}"></span>
+                <span th:if="${currentUser == null || currentUser.userID != activity.creatorID}"
+                      th:text="${activity.currentUserConfirmStatus == '已确认' ? '已确认' : '未确认'}"></span>
+            </td>
+            <td th:text="${activity.isSettable} ? '是' : '否'"></td>
+            <td>
+                <span th:class="${activity.canSettle == true} ? 'status-yes' : 'status-no'"
+                      th:text="${activity.canSettle == true} ? '可结算' : '不可结算'"
+                      th:title="${activity.settleUnavailableReason}"></span>
+            </td>
+            <td>
+                <div class="actions" th:if="${currentUser != null && currentUser.userID == activity.creatorID}">
+                    <a th:href="@{/DisplayActivity(activityID=${activity.activityID})}">项目详情</a>
+                    <form class="inline-form" th:action="@{/activity/initConfirm}" method="post">
+                        <input type="hidden" name="activityID" th:value="${activity.activityID}">
+                        <button type="submit">发起确认</button>
+                    </form>
+                    <form class="inline-form" th:action="@{/InitSettlement}" method="get">
+                        <input type="hidden" name="activityID" th:value="${activity.activityID}">
+                        <button type="submit">发起结算</button>
+                    </form>
+                    <a class="button danger" th:href="@{/EndActivity(activityID=${activity.activityID})}">删除项目</a>
+                </div>
+                <div class="actions" th:if="${currentUser != null && currentUser.userID != activity.creatorID}">
+                    <a th:href="@{/DisplayActivity(activityID=${activity.activityID})}">项目详情</a>
+                    <form class="inline-form" th:action="@{/activity/confirm}" method="post">
+                        <input type="hidden" name="activityID" th:value="${activity.activityID}">
+                        <button class="success" type="submit">确认参与</button>
+                    </form>
+                    <form class="inline-form" th:action="@{/activity/applyQuit}" method="post">
+                        <input type="hidden" name="activityID" th:value="${activity.activityID}">
+                        <button class="danger" type="submit">申请退出</button>
+                    </form>
+                </div>
+                <a th:if="${currentUser == null}" th:href="@{/DisplayActivity(activityID=${activity.activityID})}">项目详情</a>
+            </td>
+        </tr>
+    </table>
+    <script>
+        const activityPage = document.getElementById('activityPage');
+        const batchButton = document.getElementById('batchButton');
+        const batchSettlementForm = document.getElementById('batchSettlementForm');
+        let batchMode = false;
+
+        if (batchButton) {
+            batchButton.addEventListener('click', () => {
+                if (!batchMode) {
+                    batchMode = true;
+                    activityPage.classList.add('batch-mode');
+                    batchButton.textContent = '批量结算已选项目';
+                    return;
+                }
+
+                batchSettlementForm.innerHTML = '';
+                const selectedBoxes = document.querySelectorAll('.batch-checkbox:checked');
+                if (selectedBoxes.length === 0) {
+                    alert('请先选择项目');
+                    return;
+                }
+                selectedBoxes.forEach((box) => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = 'activityIDs';
+                    input.value = box.value;
+                    batchSettlementForm.appendChild(input);
+                });
+                batchSettlementForm.submit();
+            });
+        }
+    </script>
+</main></body></html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header class="site-header">
+    <h1>团体活动记账平台首页</h1>
+    <div class="header-actions">
+        <div class="warning-box" th:if="${warningReports != null && !warningReports.isEmpty()}">
+            <p th:each="report : ${warningReports}"
+               th:text="${'您在项目【' + (report.accusedActivityName != null ? report.accusedActivityName : report.accusedActivityID) + '】中有不合规行为，请注意规范使用本软件'}"></p>
+        </div>
+        <form th:action="@{/logout}" method="post"><button type="submit">退出登录</button></form>
+    </div>
+</header>
+<main>
+    <p class="message" th:text="${message}"></p>
+    <section class="panel" th:if="${admin != null}">
+        <h2>管理员功能</h2>
+        <nav>
+            <a th:href="@{/manageUser}">管理用户账号</a>
+            <a th:href="@{/resultSearchActivity}">项目管理</a>
+            <a th:href="@{/findReport}">查找与审核举报</a>
+        </nav>
+    </section>
+    <section class="panel" th:if="${user != null}">
+        <h2>普通用户功能</h2>
+        <nav>
+            <a th:href="@{/getUserInfo}">查看个人信息</a>
+            <a th:href="@{/PaymentQrCode}">收款码设置</a>
+            <a th:href="@{/CreateActivity}">创建项目</a>
+            <a th:href="@{/SearchActivity}">项目管理</a>
+            <a th:href="@{/PaymentInformation}">交费结算</a>
+            <a th:href="@{/FillReportInformation}">发布举报</a>
+            <a th:href="@{/DisplayReportStatus}">查看举报状态</a>
+        </nav>
+    </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,30 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/sys
+    username: root
+    password: zjryyds
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.groupaccountingsystem.pojo
+
+aliyun:
+  sms-auth:
+    access-key-id: YOUR_ALIYUN_ACCESS_KEY_ID
+    access-key-secret: YOUR_ALIYUN_ACCESS_KEY_SECRET
+    region-id: cn-hangzhou
+    country-code: "86"
+    sign-name: 速通互联验证码
+    template-code: 100001
+    template-param: '{"code":"##code##","min":"5"}'
+    code-length: 4
+    valid-time: 300
+    duplicate-policy: 1
+    interval: 60
+    code-type: 1
+    case-auth-policy: 1
+
+

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.groupaccountingsystem.mapper.ReportMapper">
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="reportID">
+        INSERT INTO report
+            (reporterID, accusedActivityID, accusedUserID, reportReason, reportTime, reportProcessStatus, punishmentType, punishmentEndTime)
+        VALUES
+            (#{reporterID}, #{accusedActivityID}, #{accusedUserID}, #{reportReason}, #{reportTime}, #{reportProcessStatus}, #{punishmentType}, #{punishmentEndTime})
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM report
+        WHERE reportID = #{reportID}
+          AND reporterID = #{reporterID}
+          AND reportProcessStatus = '待审核'
+    </delete>
+
+    <update id="auditReport">
+        UPDATE report
+        SET reportProcessStatus = #{reportProcessStatus},
+            punishmentType = #{punishmentType},
+            punishmentEndTime = #{punishmentEndTime}
+        WHERE reportID = #{reportID}
+    </update>
+
+    <select id="selectById" resultType="report">
+        SELECT * FROM report WHERE reportID = #{reportID}
+    </select>
+
+    <select id="selectByReporterID" resultType="report">
+        SELECT * FROM report WHERE reporterID = #{reporterID} ORDER BY reportTime DESC, reportID DESC
+    </select>
+
+    <select id="search" resultType="report">
+        SELECT r.*
+        FROM report r
+        WHERE 1 = 1
+        <if test="keyword != null and keyword != ''">
+            AND (
+                CAST(r.reportID AS CHAR) LIKE CONCAT('%', #{keyword}, '%')
+                OR CAST(r.reporterID AS CHAR) LIKE CONCAT('%', #{keyword}, '%')
+                OR CAST(r.accusedActivityID AS CHAR) LIKE CONCAT('%', #{keyword}, '%')
+                OR CAST(r.accusedUserID AS CHAR) LIKE CONCAT('%', #{keyword}, '%')
+                OR r.reportReason LIKE CONCAT('%', #{keyword}, '%')
+                OR EXISTS (
+                    SELECT 1 FROM user u
+                    WHERE (u.userID = r.reporterID OR u.userID = r.accusedUserID)
+                      AND (u.PhoneNumber LIKE CONCAT('%', #{keyword}, '%')
+                           OR u.userMailbox LIKE CONCAT('%', #{keyword}, '%')
+                           OR u.userName LIKE CONCAT('%', #{keyword}, '%'))
+                )
+            )
+        </if>
+        <if test="reportProcessStatus != null and reportProcessStatus != ''">
+            AND r.reportProcessStatus = #{reportProcessStatus}
+        </if>
+        ORDER BY r.reportTime DESC, r.reportID DESC
+    </select>
+
+    <select id="selectWarningsByAccusedUserID" resultType="report">
+        SELECT r.*, ga.activityName AS accusedActivityName
+        FROM report r
+        LEFT JOIN groupactivity ga ON ga.activityID = r.accusedActivityID
+        WHERE r.accusedUserID = #{accusedUserID}
+          AND r.reportProcessStatus = '已通过'
+          AND r.punishmentType = '警告'
+        ORDER BY r.reportTime DESC, r.reportID DESC
+    </select>
+
+    <select id="selectActiveBanByAccusedUserID" resultType="report">
+        SELECT r.*, ga.activityName AS accusedActivityName
+        FROM report r
+        LEFT JOIN groupactivity ga ON ga.activityID = r.accusedActivityID
+        WHERE r.accusedUserID = #{accusedUserID}
+          AND r.reportProcessStatus = '已通过'
+          AND r.punishmentType LIKE '封号%'
+          AND r.punishmentEndTime IS NOT NULL
+          AND r.punishmentEndTime > NOW()
+        ORDER BY r.punishmentEndTime DESC, r.reportID DESC
+        LIMIT 1
+    </select>
+</mapper>

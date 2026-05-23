@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.groupaccountingsystem.mapper.CollectMapper">
+
+    <resultMap id="collectMap" type="collect">
+        <id column="activityID" property="activityID"/>
+        <result column="amount" property="amount"/>
+        <result column="description" property="description"/>
+        <result column="initiatorID" property="initiatorID"/>
+        <result column="targetUsers" property="targetUsers"/>
+        <result column="createTime" property="createTime"/>
+        <result column="CollectStatus" property="collectStatus"/>
+    </resultMap>
+
+    <insert id="insert">
+        INSERT INTO collect (activityID, amount, description, initiatorID, targetUsers, createTime, CollectStatus)
+        VALUES (#{activityID}, #{amount}, #{description}, #{initiatorID}, #{targetUsers}, #{createTime}, #{collectStatus})
+    </insert>
+
+    <update id="update">
+        UPDATE collect
+        SET amount = #{amount},
+            description = #{description},
+            initiatorID = #{initiatorID},
+            targetUsers = #{targetUsers},
+            CollectStatus = #{collectStatus}
+        WHERE activityID = #{activityID}
+    </update>
+
+    <select id="selectByActivityID" resultMap="collectMap">
+        SELECT * FROM collect WHERE activityID = #{activityID}
+    </select>
+
+    <update id="updateCollectStatus">
+        UPDATE collect SET CollectStatus = #{collectStatus} WHERE activityID = #{activityID}
+    </update>
+</mapper>
