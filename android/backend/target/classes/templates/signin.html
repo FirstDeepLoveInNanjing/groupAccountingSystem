@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header><h1>团体活动记账平台</h1></header>
+<main>
+    <p class="message" th:text="${message}"></p>
+    <p class="error" th:text="${error}"></p>
+    <p class="error ban-message" th:text="${banMessage}"></p>
+
+    <section class="panel">
+        <h2>普通用户密码登录</h2>
+        <form th:action="@{/ordinaryUserLogin}" method="post">
+            <input name="account" placeholder="手机号或邮箱" required>
+            <input name="userPassword" type="password" placeholder="密码" required>
+            <button type="submit">登录</button>
+        </form>
+        <a th:href="@{/signupOrdinaryUser}">注册普通用户</a>
+        <a th:href="@{/forgetPassword}">忘记密码</a>
+    </section>
+
+    <section class="panel">
+        <h2>普通用户短信登录</h2>
+        <form th:action="@{/ordinaryUserSmsLogin}" method="post">
+            <div class="form-row">
+                <input name="phoneNumber" placeholder="已注册手机号" th:value="${smsPhoneNumber}" required>
+                <button type="submit" th:formaction="@{/sendSmsLoginCode}" formnovalidate>发送验证码</button>
+            </div>
+            <div class="form-row">
+                <input name="verifyCode" placeholder="短信验证码" required>
+                <button type="submit">登录</button>
+            </div>
+        </form>
+    </section>
+
+    <section class="panel">
+        <h2>管理员登录</h2>
+        <form th:action="@{/administratorLogin}" method="post">
+            <input name="userID" placeholder="管理员ID" required>
+            <input name="userPassword" type="password" placeholder="密码" required>
+            <button type="submit">登录</button>
+        </form>
+    </section>
+</main>
+</body>
+</html>

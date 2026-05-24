@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>付款确认</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><header><h1>付款确认</h1></header>
+<main>
+    <p class="error" th:text="${error}"></p>
+    <p class="message" th:text="${message}"></p>
+    <section class="panel">
+        <p>支付ID：<span th:text="${pay.payID}"></span></p>
+        <p>项目：<span th:text="${activity == null ? pay.activityID : activity.activityName}"></span></p>
+        <p>支付金额：<span th:text="${pay.payAmount}"></span></p>
+        <p>支付状态：<span th:text="${pay.payStatus}"></span></p>
+    </section>
+
+    <section class="panel">
+        <h2>创建者收款码</h2>
+        <p>收款人：<span th:text="${creator == null ? '' : creator.userName}"></span></p>
+        <img th:if="${creator != null and creator.paymentQrCodePath != null}" th:src="@{${creator.paymentQrCodePath}}" alt="创建者收款码" style="max-width:320px;width:100%;">
+        <p class="error" th:if="${creator == null or creator.paymentQrCodePath == null}">创建者尚未上传收款码，请联系创建者补充后再付款。</p>
+    </section>
+
+    <form class="panel" th:action="@{/payment/finish}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="payID" th:value="${pay.payID}">
+        <h2>上传付款记录</h2>
+        <input type="file" name="paymentProof" accept=".jpg,.jpeg,.png,image/jpeg,image/png" required>
+        <textarea name="payRemark" placeholder="付款备注，例如付款时间、转账说明"></textarea>
+        <button type="submit" th:disabled="${creator == null or creator.paymentQrCodePath == null}">付款完成</button>
+    </form>
+</main></body></html>

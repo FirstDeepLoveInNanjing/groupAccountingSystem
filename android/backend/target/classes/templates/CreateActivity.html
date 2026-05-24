@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>创建项目</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        .selected-codes { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+        .chip { display: inline-flex; align-items: center; gap: 6px; background: #e8f1fb; color: #1f5c99; padding: 4px 10px; border-radius: 14px; font-size: 13px; }
+        .chip .remove { cursor: pointer; font-weight: 700; color: #b42318; }
+    </style>
+</head>
+<body><header><h1>创建项目</h1></header>
+<main>
+    <p class="error" th:text="${error}"></p>
+    <form class="panel" th:action="@{/activity/create}" method="post" id="createForm" onsubmit="addPendingCode()">
+        <input name="activityName" placeholder="项目名称" required>
+        <input name="actualAmount" type="number" step="0.01" min="0.01" placeholder="实际金额" required>
+        <input name="maxMember" type="number" placeholder="最大成员数">
+        <input name="confirmDeadline" type="datetime-local" placeholder="确认截止时间">
+        <textarea name="description" placeholder="项目描述"></textarea>
+
+        <h3>邀请成员</h3>
+        <div class="form-row">
+            <input type="text" id="inviteCodeInput" placeholder="输入成员邀请码">
+            <button type="button" onclick="addInviteCode()">添加邀请码</button>
+        </div>
+        <div class="selected-codes" id="selectedCodes"></div>
+
+        <button type="submit">创建</button>
+        <a th:href="@{/index}">返回首页</a>
+    </form>
+</main>
+<script>
+    var inviteCodes = [];
+
+    function addInviteCode() {
+        var input = document.getElementById('inviteCodeInput');
+        var code = input.value.trim();
+        if (!code || inviteCodes.indexOf(code) >= 0) return;
+        inviteCodes.push(code);
+        input.value = '';
+        renderCodes();
+    }
+
+    function addPendingCode() {
+        addInviteCode();
+    }
+
+    function removeInviteCode(code) {
+        inviteCodes = inviteCodes.filter(function(item) { return item !== code; });
+        renderCodes();
+    }
+
+    function renderCodes() {
+        var container = document.getElementById('selectedCodes');
+        container.innerHTML = inviteCodes.map(function(code) {
+            return '<span class="chip">' + escapeHtml(code)
+                + '<span class="remove" onclick="removeInviteCode(\'' + escapeJs(code) + '\')">&times;</span>'
+                + '<input type="hidden" name="inviteCodes" value="' + escapeHtml(code) + '"></span>';
+        }).join('');
+    }
+
+    function escapeHtml(s) {
+        var d = document.createElement('div');
+        d.textContent = s;
+        return d.innerHTML;
+    }
+
+    function escapeJs(s) {
+        return s.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+    }
+</script>
+</body></html>

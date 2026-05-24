@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.groupaccountingsystem.mapper.ActivityMemberMapper">
+
+    <insert id="insert">
+        INSERT INTO activitymember (activityID, memberID, role, confirmAttendStatus, confirmTime)
+        VALUES (#{activityID}, #{memberID}, #{role}, #{confirmAttendStatus}, #{confirmTime})
+    </insert>
+
+    <delete id="delete">
+        DELETE FROM activitymember
+        WHERE activityID = #{activityID} AND memberID = #{memberID}
+    </delete>
+
+    <select id="selectOne" resultType="activityMember">
+        SELECT am.*, u.userName AS memberName
+        FROM activitymember am LEFT JOIN user u ON am.memberID = u.userID
+        WHERE am.activityID = #{activityID} AND am.memberID = #{memberID}
+    </select>
+
+    <select id="selectByActivityID" resultType="activityMember">
+        SELECT am.*, u.userName AS memberName
+        FROM activitymember am LEFT JOIN user u ON am.memberID = u.userID
+        WHERE am.activityID = #{activityID}
+        ORDER BY am.role DESC, am.memberID
+    </select>
+
+    <select id="selectByMemberID" resultType="activityMember">
+        SELECT * FROM activitymember WHERE memberID = #{memberID}
+    </select>
+
+    <update id="updateConfirmAttendStatus">
+        UPDATE activitymember
+        SET confirmAttendStatus = #{confirmAttendStatus},
+            confirmTime = NOW()
+        WHERE activityID = #{activityID}
+          AND memberID = #{memberID}
+    </update>
+</mapper>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>查看收款情况</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><header><h1>查看收款情况</h1></header>
+<main>
+    <p class="message" th:text="${message}"></p>
+    <a th:href="@{/DisplayActivity(activityID=${activity.activityID})}">返回项目详情</a>
+    <section class="panel" th:if="${collect != null}">
+        <p>收费金额：<span th:text="${collect.amount}"></span></p>
+        <p>收费说明：<span th:text="${collect.description}"></span></p>
+        <p>收费对象：<span th:text="${collect.targetUsers}"></span></p>
+        <p>完成状态：<span th:text="${collect.collectStatus}"></span></p>
+    </section>
+    <table>
+        <tr><th>支付ID</th><th>用户ID</th><th>金额</th><th>状态</th><th>方式</th><th>时间</th><th>备注</th></tr>
+        <tr th:each="pay : ${pays}">
+            <td th:text="${pay.payID}"></td><td th:text="${pay.userID}"></td><td th:text="${pay.payAmount}"></td><td th:text="${pay.payStatus}"></td>
+            <td th:text="${pay.payMethod}"></td><td th:text="${pay.payTime}"></td><td th:text="${pay.payRemark}"></td>
+        </tr>
+    </table>
+</main></body></html>

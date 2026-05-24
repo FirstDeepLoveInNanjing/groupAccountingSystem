@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>编辑项目</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><header><h1>编辑项目</h1></header>
+<main>
+    <p class="error" th:text="${error}"></p>
+    <form class="panel" th:action="@{/activity/update}" method="post" th:object="${activity}">
+        <input type="hidden" name="activityID" th:value="*{activityID}">
+        <input name="activityName" th:value="*{activityName}" placeholder="项目名称" required>
+        <input th:if="${activity.confirmInitiated != true}" name="actualAmount" type="number" step="0.01" min="0.01" th:value="*{actualAmount}" placeholder="实际金额" required>
+        <p th:if="${activity.confirmInitiated == true}">实际金额：<span th:text="${activity.actualAmount}"></span>（已发起确认，金额不可修改）</p>
+        <input name="maxMember" type="number" th:value="*{maxMember}" placeholder="最大成员数">
+        <input name="confirmDeadline" type="datetime-local" placeholder="确认截止时间">
+        <textarea name="description" th:text="*{description}" placeholder="项目描述"></textarea>
+        <button type="submit">保存</button>
+        <a th:href="@{/DisplayActivity(activityID=${activity.activityID})}">返回</a>
+    </form>
+</main></body></html>

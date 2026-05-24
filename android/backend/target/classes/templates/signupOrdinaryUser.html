@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>普通用户注册</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<header><h1>普通用户注册</h1></header>
+<main>
+    <p class="error" th:text="${error}"></p>
+    <form class="panel" th:action="@{/signupOrdinaryUser}" method="post">
+        <input name="userName" placeholder="用户名称" required>
+        <input name="phoneNumber" placeholder="联系电话" required>
+        <input name="userMailbox" type="email" placeholder="邮箱地址" required>
+        <input name="userPassword" type="password" placeholder="登录密码" required>
+        <input name="confirmPassword" type="password" placeholder="确认密码" required>
+        <button type="submit">注册</button>
+        <a th:href="@{/signin}">返回登录</a>
+    </form>
+</main>
+</body>
+</html>

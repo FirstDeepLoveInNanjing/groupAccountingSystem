@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head><meta charset="UTF-8"><title>付款完成</title><link rel="stylesheet" th:href="@{/css/style.css}"></head>
+<body><header><h1>付款完成</h1></header>
+<main>
+    <p class="message" th:text="${message}"></p>
+    <section class="panel">
+        <p>支付ID：<span th:text="${pay.payID}"></span></p>
+        <p>支付状态：<span th:text="${pay.payStatus}"></span></p>
+        <p>支付方式：<span th:text="${pay.payMethod}"></span></p>
+        <p>付款备注：<span th:text="${pay.payRemark}"></span></p>
+        <p th:if="${pay.paymentProofPath != null}">付款记录：</p>
+        <img th:if="${pay.paymentProofPath != null}" th:src="@{${pay.paymentProofPath}}" alt="付款记录" style="max-width:320px;width:100%;">
+        <a th:href="@{/PaymentInformation}">返回付款列表</a>
+    </section>
+</main></body></html>
